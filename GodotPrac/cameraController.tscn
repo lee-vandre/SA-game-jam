@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://c2uwjqywlly70"]
+
+[ext_resource type="Script" path="res://Camera.gd" id="1_tfky3"]
+
+[node name="Camera" type="Node3D"]
+script = ExtResource("1_tfky3")
+
+[node name="CameraTarget" type="Node3D" parent="."]
+
+[node name="SpringArm3D" type="SpringArm3D" parent="CameraTarget"]
+spring_length = -3.0
+
+[node name="Camera3D" type="Camera3D" parent="CameraTarget/SpringArm3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3)

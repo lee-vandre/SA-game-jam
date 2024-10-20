@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://0uvpsibcpjau"]
+
+[ext_resource type="Script" path="res://Node3D.gd" id="1_ww7up"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r5cp3"]
+emission_energy_multiplier = 9.62
+emission_operator = 1
+emission_on_uv2 = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_abwrc"]
+material = SubResource("StandardMaterial3D_r5cp3")
+size = Vector3(0.75, 0.5, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hc8qr"]
+size = Vector3(0.75, 0.5, 2)
+
+[node name="Rocket" type="Node3D"]
+script = ExtResource("1_ww7up")
+
+[node name="rocketbody" type="RigidBody3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="rocketbody"]
+mesh = SubResource("BoxMesh_abwrc")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="rocketbody"]
+shape = SubResource("BoxShape3D_hc8qr")

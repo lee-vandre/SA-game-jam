@@ -1,0 +1,72 @@
+[gd_scene load_steps=9 format=3 uid="uid://cjhb0ajnd1a6b"]
+
+[ext_resource type="PackedScene" uid="uid://dl3n5mns4tvrm" path="res://car_and_cam.tscn" id="2_d7wnx"]
+[ext_resource type="PackedScene" uid="uid://doyq8sbfpl3ub" path="res://ramp.tscn" id="2_v3k5n"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jgcur"]
+size = Vector3(5000, 0.2, 40)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0goxy"]
+albedo_color = Color(0.0177324, 0.0177324, 0.0177324, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_rywvf"]
+material = SubResource("StandardMaterial3D_0goxy")
+size = Vector3(5000, 0.1, 40)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_h3nn4"]
+size = Vector3(500, 40, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_cejnx"]
+size = Vector3(500, 40, 1)
+
+[sub_resource type="Environment" id="Environment_sd486"]
+
+[node name="main" type="Node3D"]
+transform = Transform3D(-0.0017802, 0, 0.999998, 0, 1, 0, -0.999998, 0, -0.0017802, -1.64935, 0, 0)
+
+[node name="floor" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="floor"]
+shape = SubResource("BoxShape3D_jgcur")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="floor"]
+mesh = SubResource("BoxMesh_rywvf")
+skeleton = NodePath("../..")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.236115, 0.498881, 0.833887, -0.0437139, -0.851829, 0.521993, 0.970741, -0.159703, -0.179322, 46.2459, 26.4335, -0.645082)
+light_energy = 4.0
+shadow_enabled = true
+directional_shadow_max_distance = 251.0
+directional_shadow_pancake_size = 56.0
+
+[node name="leftWall" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -11.4531, 22.8433)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="leftWall"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.15801)
+shape = SubResource("BoxShape3D_h3nn4")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="leftWall"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.35359)
+mesh = SubResource("BoxMesh_cejnx")
+
+[node name="rightWall" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -11.4531, -17.7952)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="rightWall"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.15801)
+shape = SubResource("BoxShape3D_h3nn4")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="rightWall"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.35359)
+mesh = SubResource("BoxMesh_cejnx")
+
+[node name="CarAndCam" parent="." instance=ExtResource("2_d7wnx")]
+transform = Transform3D(-0.00459001, 0, -0.999989, 0, 1, 0, 0.999989, 0, -0.00459001, 228.506, 0.979392, -9.53674e-07)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_sd486")
+
+[node name="ramp" parent="." instance=ExtResource("2_v3k5n")]
+transform = Transform3D(8.52334, 0.351662, -2.38419e-07, -3.20185, 0.936127, 0, 0, 1.74623e-10, 1160.68, 160.647, 1.06603, 13.6406)
