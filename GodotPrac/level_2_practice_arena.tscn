@@ -1,0 +1,119 @@
+[gd_scene load_steps=15 format=3 uid="uid://bxcskk3qyxe55"]
+
+[ext_resource type="Script" path="res://level_2_practice_arena.gd" id="1_aywfd"]
+[ext_resource type="PackedScene" uid="uid://bbcikb6yd7xob" path="res://low-poly-football-stadium/source/Stadiumtest1.fbx" id="1_vfwj4"]
+[ext_resource type="PackedScene" uid="uid://dl3n5mns4tvrm" path="res://car_and_cam.tscn" id="2_jpqp8"]
+[ext_resource type="Texture2D" uid="uid://blr8dp0l15k34" path="res://assets/white.jpeg" id="3_wsygs"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_c8ndf"]
+size = Vector3(80, 1, 300)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_uwn22"]
+size = Vector3(80, 1, 300)
+
+[sub_resource type="Curve3D" id="Curve3D_xglpg"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -3, -14.776, -18.3393, -5, 7, -11, 5, -7, 11, -3, -11.776, 22.6607, 0, 0, 0, 0, 0, 0, 1, -22.776, 46.6607, 0, 0, 0, 0, 0, 0, 0, -25.776, 62.6607, 0, 0, 0, 0, 0, 0, 0, -22.776, 80.6607, 0, 0, 0, 0, 0, 0, 0, -13.776, 98.6607, 0, 0, 0, 0, 0, 0, 1, -3.77603, 117.661, 0, 0, 0, -1.1, 2, -0.6, -4, 21.224, 148.661),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0)
+}
+point_count = 8
+
+[sub_resource type="BoxMesh" id="BoxMesh_0tx2y"]
+size = Vector3(80, 30, 30)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_puclf"]
+size = Vector3(80, 30, 30)
+
+[sub_resource type="Environment" id="Environment_4ju8r"]
+glow_enabled = true
+glow_bloom = 0.37
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_esga4"]
+size = Vector3(80, 50, 50)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5wrbh"]
+albedo_texture = ExtResource("3_wsygs")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ealn2"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_ijpp2"]
+material = SubResource("StandardMaterial3D_ealn2")
+size = Vector3(80, 50, 50)
+
+[node name="level2PracticeArena" type="Node3D"]
+script = ExtResource("1_aywfd")
+
+[node name="floor" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.09026, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="floor"]
+mesh = SubResource("BoxMesh_c8ndf")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="floor"]
+shape = SubResource("BoxShape3D_uwn22")
+
+[node name="Stadiumtest1" parent="." instance=ExtResource("1_vfwj4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 2.02506, -1.86933, -24.6858, -3.79647)
+
+[node name="Path3D" type="Path3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 17.776, -106.661)
+curve = SubResource("Curve3D_xglpg")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -123.307)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+mesh = SubResource("BoxMesh_0tx2y")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_puclf")
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -7)
+use_collision = true
+polygon = PackedVector2Array(0, 0, 0, 10, 10, 10, 10, 0)
+mode = 2
+path_node = NodePath("../Path3D")
+path_interval_type = 0
+path_interval = 1.0
+path_simplify_angle = 0.0
+path_rotation = 2
+path_local = false
+path_continuous_u = true
+path_u_distance = 1.0
+path_joined = false
+
+[node name="CarAndCam" parent="." instance=ExtResource("2_jpqp8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 19, -127)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_4ju8r")
+
+[node name="StaticBody3D2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 109.33)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D2"]
+shape = SubResource("BoxShape3D_esga4")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D2"]
+material_override = SubResource("StandardMaterial3D_5wrbh")
+mesh = SubResource("BoxMesh_ijpp2")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="Control"]
+layout_mode = 0
+offset_right = 392.0
+offset_bottom = 238.0
+text = "controls:
+foward = w
+back = s
+left = a
+right = d
+boost = left mouse button
+detach boost box = right mouse button
+exit practice level = n"

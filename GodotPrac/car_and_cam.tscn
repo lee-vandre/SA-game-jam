@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://dl3n5mns4tvrm"]
+[gd_scene load_steps=5 format=3 uid="uid://dl3n5mns4tvrm"]
 
 [ext_resource type="PackedScene" uid="uid://sf7ge3v4fkbi" path="res://Car.tscn" id="1_ubyo1"]
 [ext_resource type="Script" path="res://carCamController.gd" id="2_te1gr"]
 [ext_resource type="PackedScene" uid="uid://0uvpsibcpjau" path="res://rocket.tscn" id="2_thwij"]
+[ext_resource type="Script" path="res://addons/CameraShake3D/CameraShake3D/CameraShake3DNode.gd" id="4_umsjn"]
 
 [node name="CarAndCam" type="Node3D"]
 
@@ -11,7 +12,7 @@ cameraController = NodePath("../Camera")
 cameraTarget = NodePath("../Camera/CameraTarget")
 
 [node name="Rocket" parent="Car" node_paths=PackedStringArray("car") instance=ExtResource("2_thwij")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.566979, -0.92611)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.01866, -0.92611)
 car = NodePath("..")
 
 [node name="Camera" type="Node3D" parent="." node_paths=PackedStringArray("cameraTarget")]
@@ -23,5 +24,11 @@ cameraTarget = NodePath("CameraTarget")
 [node name="SpringArm3D" type="SpringArm3D" parent="Camera/CameraTarget"]
 spring_length = -5.0
 
-[node name="Camera3D" type="Camera3D" parent="Camera/CameraTarget/SpringArm3D"]
+[node name="Camera3D" type="Camera3D" parent="Camera/CameraTarget/SpringArm3D" node_paths=PackedStringArray("camera")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, -5)
+script = ExtResource("4_umsjn")
+camera = NodePath(".")
+decay = 0.5
+magnitude = 0.05
+
+[connection signal="e" from="Car/Rocket" to="Camera/CameraTarget/SpringArm3D/Camera3D" method="_on_rocket_e"]

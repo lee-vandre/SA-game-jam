@@ -16,6 +16,7 @@ size = Vector3(0.75, 0.5, 2)
 
 [node name="Rocket" type="Node3D"]
 script = ExtResource("1_ww7up")
+boost = 50
 
 [node name="rocketbody" type="RigidBody3D" parent="."]
 

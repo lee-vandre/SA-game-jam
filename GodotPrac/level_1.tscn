@@ -1,0 +1,108 @@
+[gd_scene load_steps=11 format=3 uid="uid://buya6075ew0pe"]
+
+[ext_resource type="PackedScene" uid="uid://bbcikb6yd7xob" path="res://low-poly-football-stadium/source/Stadiumtest1.fbx" id="1_5vt0o"]
+[ext_resource type="Script" path="res://level_1.gd" id="1_jv584"]
+[ext_resource type="PackedScene" uid="uid://dl3n5mns4tvrm" path="res://car_and_cam.tscn" id="2_0qhix"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_7ptba"]
+size = Vector3(80, 1, 300)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_21md2"]
+size = Vector3(80, 1, 300)
+
+[sub_resource type="Curve3D" id="Curve3D_o0q6a"]
+bake_interval = 0.01
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0.422517, -0.692531, -22.4299, -0.142685, -1.015, -5.04866, 0.142685, 1.015, 5.04866, 0.0427919, 1.90183, -8.92449, -0.163574, -1.16359, -5.46304, 0.163574, 1.16359, 5.46304, -0.944009, 4.72353, 2.97934, -0.504302, -3.58738, -6.27829, 0.504302, 3.58738, 6.27829, -1.22465, 11.1919, 17.3283, -0.719805, -5.11975, -3.82482, 0.719805, 5.11975, 3.82482, -0.5614, 23.1408, 31.586, 0, 0, 0, 0, 0, 0, -0.497155, 33.9267, 38.4997),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0)
+}
+point_count = 6
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_uroek"]
+size = Vector3(80, 50, 50)
+
+[sub_resource type="BoxMesh" id="BoxMesh_c01go"]
+size = Vector3(80, 50, 50)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0yj6u"]
+size = Vector3(5000, 1, 5000)
+
+[sub_resource type="Environment" id="Environment_v2n7h"]
+glow_enabled = true
+glow_bloom = 0.37
+
+[node name="level1PracticeArena" type="Node3D"]
+script = ExtResource("1_jv584")
+
+[node name="floor" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.09026, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="floor"]
+mesh = SubResource("BoxMesh_7ptba")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="floor"]
+shape = SubResource("BoxShape3D_21md2")
+
+[node name="Stadiumtest1" parent="." instance=ExtResource("1_5vt0o")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 2.02506, -1.86933, -24.6858, -3.79647)
+
+[node name="Path3D2" type="Path3D" parent="."]
+transform = Transform3D(0.990263, -0.139208, 0, 0.139018, 0.988912, 0.0522314, -0.00727101, -0.0517228, 0.998635, 0.359825, -4.10318, 0)
+curve = SubResource("Curve3D_o0q6a")
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -7.67083, 0)
+use_collision = true
+polygon = PackedVector2Array(0, 0, 0, 5, 15, 5, 15, 0)
+mode = 2
+path_node = NodePath("../Path3D2")
+path_interval_type = 0
+path_interval = 1.0
+path_simplify_angle = 7.0
+path_rotation = 2
+path_local = true
+path_continuous_u = true
+path_u_distance = 1.0
+path_joined = false
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 109.33)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_uroek")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+mesh = SubResource("BoxMesh_c01go")
+
+[node name="CarAndCam" parent="." instance=ExtResource("2_0qhix")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.09121, 6.03747, -28.4761)
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -88.7988, 0)
+shape = SubResource("BoxShape3D_0yj6u")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="Control"]
+layout_mode = 0
+offset_right = 392.0
+offset_bottom = 238.0
+text = "controls:
+foward = w
+back = s
+left = a
+right = d
+boost = left mouse button
+detach boost box = right mouse button
+exit practice level = n"
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_v2n7h")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]

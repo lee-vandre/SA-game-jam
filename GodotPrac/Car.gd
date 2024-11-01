@@ -9,8 +9,8 @@ var camSpeed := float();
 const MAX_STEER := 0.8;
 const ENGINE_POWER := 400;
 
-var torque_strength = 100
-
+var torque_strength = 500
+@onready var ray : RayCast3D= $RayCast3D
 
 func _ready() -> void:
 	$RayCast3D.enabled = true;
@@ -24,11 +24,11 @@ func smoothCamFollow(delta) -> void:
 	cameraController.global_transform.origin = cameraController.global_transform.origin.lerp(self.global_transform.origin + camOffset,camTimer);
 
 func _physics_process(delta) -> void:
-	if Input.is_action_pressed("leftTilt"):
-		apply_local_yaw_torque(-torque_strength)
-	# Rotate right
-	if Input.is_action_pressed("rightTilt"):
-		apply_local_yaw_torque(torque_strength)
+	var pitch =  Input.get_axis("back", "forward")
+	var roll = Input.get_axis("left", "right")
+	if !ray.is_colliding():
+		apply_front_torque(torque_strength * pitch)
+		apply_local_yaw_torque(torque_strength * roll)
 
 
 
@@ -40,6 +40,12 @@ func moveForward() -> void:
 func _process(delta) -> void:
 	smoothCamFollow(delta);
 	steering = lerp(steering,Input.get_axis("right","left") * MAX_STEER,5 * delta);
+	if linear_velocity.x > 0.1 :
+		center_of_mass.x = Input.get_axis("right","left")*0.4
+	elif linear_velocity.x < -0.1:
+		center_of_mass.x = Input.get_axis("right","left")*-0.4
+	else:
+		center_of_mass.x = 0
 	moveForward();
 	print(linear_velocity);
 	pass
@@ -51,3 +57,7 @@ func apply_local_yaw_torque(strength) -> void:
 	# Apply torque around the local Y-axis
 	apply_torque(local_z_axis * strength);
 	
+
+func apply_front_torque(strength) -> void:
+	var local_axis = transform.basis.x
+	apply_torque(local_axis * strength)

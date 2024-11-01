@@ -1,0 +1,165 @@
+[gd_scene load_steps=22 format=3 uid="uid://nwvafo6toom"]
+
+[ext_resource type="Script" path="res://level_2_proper.gd" id="1_u0rdo"]
+[ext_resource type="Texture2D" uid="uid://bj8p16u21af8h" path="res://assets/997013_696.jpg" id="1_xiaca"]
+[ext_resource type="PackedScene" uid="uid://bbcikb6yd7xob" path="res://low-poly-football-stadium/source/Stadiumtest1.fbx" id="2_ouvu0"]
+[ext_resource type="PackedScene" uid="uid://dl3n5mns4tvrm" path="res://car_and_cam.tscn" id="3_ibb15"]
+[ext_resource type="Script" path="res://area_3d.gd" id="4_epao3"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ywi68"]
+albedo_texture = ExtResource("1_xiaca")
+
+[sub_resource type="BoxMesh" id="BoxMesh_ifwko"]
+size = Vector3(80, 1, 300)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_00ipk"]
+size = Vector3(80, 1, 300)
+
+[sub_resource type="Curve3D" id="Curve3D_1mk0n"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -3, -14.776, -18.3393, -5, 7, -11, 5, -7, 11, -3, -11.776, 22.6607, 0, 0, 0, 0, 0, 0, 1, -22.776, 46.6607, 0, 0, 0, 0, 0, 0, 0, -25.776, 62.6607, 0, 0, 0, 0, 0, 0, 0, -22.776, 80.6607, 0, 0, 0, 0, 0, 0, 0, -13.776, 98.6607, 0, 0, 0, 0, 0, 0, 1, -3.77603, 117.661, 0, 0, 0, -1.1, 2, -0.6, -4, 21.224, 148.661),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0)
+}
+point_count = 8
+
+[sub_resource type="BoxMesh" id="BoxMesh_7hd8l"]
+size = Vector3(80, 30, 30)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ao5tv"]
+size = Vector3(80, 30, 30)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g2ms0"]
+albedo_texture = ExtResource("1_xiaca")
+
+[sub_resource type="Environment" id="Environment_841qg"]
+glow_enabled = true
+glow_bloom = 0.37
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_u31ki"]
+size = Vector3(80, 50, 50)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pje71"]
+albedo_texture = ExtResource("1_xiaca")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c1di5"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_cknax"]
+material = SubResource("StandardMaterial3D_c1di5")
+size = Vector3(80, 50, 50)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rsnc4"]
+albedo_color = Color(0.854902, 0.513726, 0.156863, 1)
+emission_enabled = true
+emission = Color(0.85301, 0.515339, 0.157233, 1)
+emission_energy_multiplier = 2.23
+
+[sub_resource type="SphereMesh" id="SphereMesh_8xhwv"]
+material = SubResource("StandardMaterial3D_rsnc4")
+radius = 12.381
+height = 7.811
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vkj0q"]
+size = Vector3(20, 15, 20)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_t0emc"]
+size = Vector3(5000, 1, 5000)
+
+[node name="level2proper" type="Node3D"]
+script = ExtResource("1_u0rdo")
+
+[node name="floor" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.09026, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="floor"]
+material_override = SubResource("StandardMaterial3D_ywi68")
+mesh = SubResource("BoxMesh_ifwko")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="floor"]
+shape = SubResource("BoxShape3D_00ipk")
+
+[node name="Stadiumtest1" parent="." instance=ExtResource("2_ouvu0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 2.02506, -1.86933, -24.6858, -3.79647)
+
+[node name="Path3D" type="Path3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 17.776, -106.661)
+curve = SubResource("Curve3D_1mk0n")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -123.307)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+mesh = SubResource("BoxMesh_7hd8l")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_ao5tv")
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -7)
+material_override = SubResource("StandardMaterial3D_g2ms0")
+use_collision = true
+polygon = PackedVector2Array(0, 0, 0, 10, 10, 10, 10, 0)
+mode = 2
+path_node = NodePath("../Path3D")
+path_interval_type = 0
+path_interval = 1.0
+path_simplify_angle = 0.0
+path_rotation = 2
+path_local = false
+path_continuous_u = true
+path_u_distance = 1.0
+path_joined = false
+
+[node name="CarAndCam" parent="." instance=ExtResource("3_ibb15")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 19, -127)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_841qg")
+
+[node name="StaticBody3D2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 109.33)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D2"]
+shape = SubResource("BoxShape3D_u31ki")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D2"]
+material_override = SubResource("StandardMaterial3D_pje71")
+mesh = SubResource("BoxMesh_cknax")
+
+[node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 28.5387, 113.747)
+script = ExtResource("4_epao3")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Area3D"]
+mesh = SubResource("SphereMesh_8xhwv")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.65142, 5.09626, -1.73457)
+shape = SubResource("BoxShape3D_vkj0q")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="Control"]
+layout_mode = 0
+offset_right = 392.0
+offset_bottom = 238.0
+text = "controls:
+foward = w
+back = s
+left = a
+right = d
+boost = left mouse button
+detach boost box = right mouse button
+exit practice level = n"
+
+[node name="Area3D2" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5.05663, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D2"]
+shape = SubResource("BoxShape3D_t0emc")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
+[connection signal="body_entered" from="Area3D2" to="." method="_on_area_3d_2_body_entered"]

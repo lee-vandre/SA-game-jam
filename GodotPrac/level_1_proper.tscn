@@ -1,0 +1,148 @@
+[gd_scene load_steps=19 format=3 uid="uid://xlg1fu2ywfks"]
+
+[ext_resource type="Script" path="res://level_1_proper.gd" id="1_040pm"]
+[ext_resource type="Texture2D" uid="uid://bj8p16u21af8h" path="res://assets/997013_696.jpg" id="1_gkajt"]
+[ext_resource type="PackedScene" uid="uid://bbcikb6yd7xob" path="res://low-poly-football-stadium/source/Stadiumtest1.fbx" id="2_lfnbb"]
+[ext_resource type="PackedScene" uid="uid://dl3n5mns4tvrm" path="res://car_and_cam.tscn" id="3_8biv3"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2yhnx"]
+albedo_texture = ExtResource("1_gkajt")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e4fcm"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_8rswc"]
+material = SubResource("StandardMaterial3D_e4fcm")
+size = Vector3(80, 1, 300)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_cgo42"]
+size = Vector3(80, 1, 300)
+
+[sub_resource type="Curve3D" id="Curve3D_25bh8"]
+bake_interval = 0.01
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0.422517, -0.692531, -22.4299, -0.142685, -1.015, -5.04866, 0.142685, 1.015, 5.04866, 0.0427919, 1.90183, -8.92449, -0.163574, -1.16359, -5.46304, 0.163574, 1.16359, 5.46304, -0.944009, 4.72353, 2.97934, -0.504302, -3.58738, -6.27829, 0.504302, 3.58738, 6.27829, -1.22465, 11.1919, 17.3283, -0.719805, -5.11975, -3.82482, 0.719805, 5.11975, 3.82482, -0.5614, 23.1408, 31.586, 0, 0, 0, 0, 0, 0, -0.497155, 33.9267, 38.4997),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0)
+}
+point_count = 6
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rvtho"]
+albedo_texture = ExtResource("1_gkajt")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jjttq"]
+albedo_color = Color(0.854902, 0.513726, 0.156863, 1)
+emission_enabled = true
+emission = Color(0.85301, 0.515339, 0.157233, 1)
+emission_energy_multiplier = 2.23
+
+[sub_resource type="SphereMesh" id="SphereMesh_ooooj"]
+material = SubResource("StandardMaterial3D_jjttq")
+radius = 12.381
+height = 7.811
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xcn61"]
+size = Vector3(20, 15, 20)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xk7r8"]
+size = Vector3(80, 50, 50)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_08mq0"]
+albedo_texture = ExtResource("1_gkajt")
+
+[sub_resource type="BoxMesh" id="BoxMesh_ut7ge"]
+size = Vector3(80, 50, 50)
+
+[sub_resource type="Environment" id="Environment_nlbkt"]
+glow_enabled = true
+glow_bloom = 0.37
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_oq0m6"]
+size = Vector3(5000, 1, 5000)
+
+[node name="level1proper" type="Node3D"]
+script = ExtResource("1_040pm")
+
+[node name="floor" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.09026, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="floor"]
+material_override = SubResource("StandardMaterial3D_2yhnx")
+mesh = SubResource("BoxMesh_8rswc")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="floor"]
+shape = SubResource("BoxShape3D_cgo42")
+
+[node name="Stadiumtest1" parent="." instance=ExtResource("2_lfnbb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 2.02506, -1.86933, -24.6858, -3.79647)
+
+[node name="Path3D2" type="Path3D" parent="."]
+transform = Transform3D(0.990263, -0.139208, 0, 0.139018, 0.988912, 0.0522314, -0.00727101, -0.0517228, 0.998635, 0.359825, -4.10318, 0)
+curve = SubResource("Curve3D_25bh8")
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -7.67083, 0)
+material_override = SubResource("StandardMaterial3D_rvtho")
+use_collision = true
+polygon = PackedVector2Array(0, 0, 0, 5, 15, 5, 15, 0)
+mode = 2
+path_node = NodePath("../Path3D2")
+path_interval_type = 0
+path_interval = 1.0
+path_simplify_angle = 7.0
+path_rotation = 2
+path_local = true
+path_continuous_u = true
+path_u_distance = 1.0
+path_joined = false
+
+[node name="CarAndCam" parent="." instance=ExtResource("3_8biv3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.9597, 2.25872, -22.9285)
+
+[node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 28.5387, 113.747)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Area3D"]
+mesh = SubResource("SphereMesh_ooooj")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.65142, 5.09626, -1.73457)
+shape = SubResource("BoxShape3D_xcn61")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 109.33)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_xk7r8")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+material_override = SubResource("StandardMaterial3D_08mq0")
+mesh = SubResource("BoxMesh_ut7ge")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_nlbkt")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="Control"]
+layout_mode = 0
+offset_right = 392.0
+offset_bottom = 238.0
+text = "controls:
+foward = w
+back = s
+left = a
+right = d
+boost = left mouse button
+detach boost box = right mouse button
+exit practice level = n"
+
+[node name="Area3D2" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D2"]
+shape = SubResource("BoxShape3D_oq0m6")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
+[connection signal="body_entered" from="Area3D2" to="." method="_on_area_3d_2_body_entered"]

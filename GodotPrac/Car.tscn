@@ -1,9 +1,13 @@
-[gd_scene load_steps=18 format=4 uid="uid://sf7ge3v4fkbi"]
+[gd_scene load_steps=19 format=4 uid="uid://sf7ge3v4fkbi"]
 
 [ext_resource type="Script" path="res://Car.gd" id="1_iqorh"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_8vfot"]
-size = Vector3(1, 0.9, 4)
+size = Vector3(1.5, 0.9, 4)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_krtot"]
+radius = 0.3925
+height = 1.065
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dyp6a"]
 resource_name = "Plastic"
@@ -414,11 +418,16 @@ shadow_mesh = SubResource("ArrayMesh_3bbuw")
 [node name="Car" type="VehicleBody3D"]
 mass = 80.0
 center_of_mass_mode = 1
+angular_damp = 4.0
 script = ExtResource("1_iqorh")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.177605, 0)
 shape = SubResource("BoxShape3D_8vfot")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.11597, 1.96409)
+shape = SubResource("CapsuleShape3D_krtot")
 
 [node name="frontWheelLeft" type="VehicleWheel3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.826694, -0.298, 1.49637)
